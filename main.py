@@ -20,8 +20,8 @@ class MainApp(QMainWindow, FORM_CLASS):
         self.setupUi(self)
         
         # Firebase configuration
-        cred = credentials.Certificate('path/to/your/firebase/credentials.json')
-        firebase_admin.initialize_app(cred, {'databaseURL': 'https://your-firebase-database-url.firebaseio.com'})
+        cred = credentials.Certificate('C:/Users/memaa/Downloads/test-17bcc-firebase-adminsdk-r3ujd-94ca0c1166.json')
+        firebase_admin.initialize_app(cred, {'databaseURL': 'https://test-17bcc-default-rtdb.firebaseio.com'})
 
         
         # Initialize the EEG model
@@ -33,6 +33,14 @@ class MainApp(QMainWindow, FORM_CLASS):
         self.importButton.clicked.connect(self.run_detection)
         self.importButton_2.clicked.connect(self.update_result)
         
+    def export_to_firebase(self):
+        data_to_export = self.detection_label.text()
+
+        #Node of the Firebase
+        ref = db.reference('Epilepsy Detected')
+        ref.set(data_to_export)
+
+        print('Data exported to Firebase:', data_to_export)
         
 
     def upload_file(self):
@@ -75,6 +83,7 @@ class MainApp(QMainWindow, FORM_CLASS):
         
         result = self.eeg_model.detect_epilepsy(loaded_svm_model, X)
         self.detection_label.setText(result)
+        self.export_to_firebase()
 
 def main():
     app = QApplication(sys.argv)
