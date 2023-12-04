@@ -42,7 +42,6 @@ class MainApp(QMainWindow, FORM_CLASS):
 
         print('Data exported to Firebase:', data_to_export)
         
-
     def upload_file(self):
 
         options = QFileDialog.Options()
@@ -76,6 +75,7 @@ class MainApp(QMainWindow, FORM_CLASS):
         random_row = random_row.sort_index(axis=1)
         X = random_row.drop(columns = ['y'])
         y = random_row['y']
+        print(X)
         print(y)
         
         loaded_svm_model = joblib.load('svm_model.pkl')
@@ -84,6 +84,7 @@ class MainApp(QMainWindow, FORM_CLASS):
         result = self.eeg_model.detect_epilepsy(loaded_svm_model, X)
         self.detection_label.setText(result)
         self.export_to_firebase()
+
 
 def main():
     app = QApplication(sys.argv)

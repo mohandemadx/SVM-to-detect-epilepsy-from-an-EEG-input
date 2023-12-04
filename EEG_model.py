@@ -39,6 +39,7 @@ class EEGModel(QObject):
             no_seizure = y[y.values > 1].shape[0]
 
             colors = ['blue', 'red']
+            
             sn.barplot(x=labels, y=[no_seizure,seizure], palette=colors)
             plt.show()
             
@@ -71,6 +72,8 @@ class EEGModel(QObject):
             y_pred = svc.predict(X_test)
             
             print(f'y predict = {y_pred}')
+            print(f'y test = {y_test}')
+            
             print(f'Accuracy score: {accuracy_score(y_test, y_pred):0.4f}')
             
             # Confusion Matrix
